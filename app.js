@@ -74,14 +74,13 @@ const txtLog = function(message){
 }
 
 const callPython =async function(fullPathFileName){
+  const darknetPath = 'D:\\11_Conda\\darknet\\';
   txtLog("Call Python >"+fullPathFileName);
   const { spawn } = require('child_process');
     const pyProg = spawn('python', ['./conda.py']);
 
     await pyProg.stdout.on('data', function(data) {
         console.log(data.toString());
-        res.write(data);
-        res.end('end');
     });
   return true;
 }
