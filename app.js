@@ -54,9 +54,11 @@ app.get('/new', (req, res) => {
 
 //Upload route
 app.post('/upload', upload.single('image'),async function(req, res, next){
+  fileName = 'uploads/'+fileName;
   console.log(fileName);
+
   try {
-      if(await callPython(fileName)){
+      if(await callDasknet(fileName)){
         return res.status(201).json({message: 'File uploded successfully'});
       }else{
         return res.status(201).json({message: 'File uploded Fail'});
@@ -73,14 +75,12 @@ const txtLog = function(message){
   return txt;
 }
 
-const callPython =async function(fullPathFileName){
-  const darknetPath = 'D:\\11_Conda\\darknet\\';
+const callDasknet =async function(fullPathFileName){
+  const darknetPath = 'D:\\11_Conda\\darknet\\data2\\';
   txtLog("Call Python >"+fullPathFileName);
-  const { spawn } = require('child_process');
-    const pyProg = spawn('ls', ['./conda.py']);
 
-    await pyProg.stdout.on('data', function(data) {
-        console.log(data.toString());
-    });
+  const { stdout, stderr } = await exec('darknet detector test D:/11_Conda/darknet/data2/obj.data D:/11_Conda/darknet/data2/yolov4-class84.cfg D:/11_Conda/darknet/data2/backup/yolov4-class84_last.weights '+fullPathFileName+' -dont_show -thresh 0.5 > D:/11_Conda/darknet/data2/logs/log.txt');
+  console.log('stdout:', stdout);
+  console.error('stderr:', stderr);
   return true;
 }
