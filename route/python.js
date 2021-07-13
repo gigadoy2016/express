@@ -10,7 +10,7 @@ const txtLog = function(message){
     console.log(txt);
     console.log("----------------------------------------------------------------------");
     return txt;
-  }
+}
 
 
 router.get('/',function(req,res){

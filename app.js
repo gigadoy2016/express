@@ -77,7 +77,7 @@ const callPython =async function(fullPathFileName){
   const darknetPath = 'D:\\11_Conda\\darknet\\';
   txtLog("Call Python >"+fullPathFileName);
   const { spawn } = require('child_process');
-    const pyProg = spawn('python', ['./conda.py']);
+    const pyProg = spawn('ls', ['./conda.py']);
 
     await pyProg.stdout.on('data', function(data) {
         console.log(data.toString());
