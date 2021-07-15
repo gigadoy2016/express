@@ -1,6 +1,11 @@
 const express = require("express"); 
-var path      = require('path');
-var multer    = require('multer');
+const path      = require('path');
+const multer    = require('multer');
+const util    = require('util');
+const fs = require('fs');
+const exec    = util.promisify(require('child_process').exec);
+
+const destinationLogPath = 'D:/11_Conda/darknet/data2/logs/';
 
 const app     = express(); // สร้าง Express Application ลองกด ctrl + คลิกเข้าไปดูในไส้ใน
 const PORT    = 3000;
@@ -59,7 +64,8 @@ app.post('/upload', upload.single('image'),async function(req, res, next){
 
   try {
       if(await callDasknet(fileName)){
-        return res.status(201).json({message: 'File uploded successfully'});
+        let data = await readPrediction(destinationLogPath+'/log.txt');
+        return res.status(201).json(data);
       }else{
         return res.status(201).json({message: 'File uploded Fail'});
       }
@@ -79,8 +85,32 @@ const callDasknet =async function(fullPathFileName){
   const darknetPath = 'D:\\11_Conda\\darknet\\data2\\';
   txtLog("Call Python >"+fullPathFileName);
 
-  const { stdout, stderr } = await exec('darknet detector test D:/11_Conda/darknet/data2/obj.data D:/11_Conda/darknet/data2/yolov4-class84.cfg D:/11_Conda/darknet/data2/backup/yolov4-class84_last.weights '+fullPathFileName+' -dont_show -thresh 0.5 > D:/11_Conda/darknet/data2/logs/log.txt');
-  console.log('stdout:', stdout);
+  const { stdout, stderr } = await exec('darknet detector test D:/11_Conda/darknet/data2/obj.data D:/11_Conda/darknet/data2/yolov4-class84.cfg D:/11_Conda/darknet/data2/backup/yolov4-class84_last.weights '+fullPathFileName+' -dont_show -thresh 0.5 > '+destinationLogPath+'log.txt');
+  //console.log('stdout:', stdout);
   console.error('stderr:', stderr);
   return true;
+}
+
+const readPrediction = async function(source){  
+  let txt ='No data.';
+  try {
+      let data =await fs.readFileSync(source, 'utf8');      
+      let dictionary = data.toString().split("\r\n");
+      txt =await convertJSON(dictionary);
+  } catch(e) {
+      console.log('Error:', e.stack);
+  }
+  return txt;
+}
+const convertJSON = function(datas){
+  let obj = [];
+  for(let i=0;i < datas.length;i++){
+    let data = datas[i];
+    if(data.indexOf('%') >0) {
+      label = data.split(":");
+      a = {id:label[0],a:label[1]};
+      obj.push(a);
+    }
+  }
+  return obj;
 }
