@@ -91,6 +91,8 @@ const callDasknet =async function(fullPathFileName){
   return true;
 }
 
+
+// - ---- Function Read File. -------
 const readPrediction = async function(source){  
   let txt ='No data.';
   try {

@@ -3,11 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <title>Sample File Upload</title>
+    <style>
+      body {
+        background-image: url("./img/Template.png");
+        background-repeat: no-repeat;
+      }
+    </style>
   </head>
   <body>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-      <input type="file" name="image" />
-      <input type="submit" name="btn_upload_profile_pic" value="Upload" />
-    </form>
+    <div>test
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" />
+        <input type="submit" name="btn_upload_profile_pic" value="Upload" />
+      </form>
+      <img src="/images/log_lish.png" alt="Show"/>      
+    </div>
   </body>
 </html>
