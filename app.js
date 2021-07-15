@@ -14,6 +14,8 @@ var dateFormat = require('dateformat');
 var rootFile='[app.js]';
 
 var pythonRouter = require('./route/python');
+var rawdata = fs.readFileSync('data.json');
+var FOODS = JSON.parse(rawdata);
 
 app.use(express.static(path.join(__dirname,'view')));
 app.use(express.json());
@@ -21,11 +23,11 @@ app.set('view engine', 'ejs');
 app.set('views', './view');
 
 
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'uploads');
+      cb(null, './view/uploads');
   },
   filename: (req, file, cb) => {
       console.log(file);
@@ -61,13 +63,14 @@ app.get('/new', (req, res) => {
 
 //Upload route
 app.post('/upload', upload.single('image'),async function(req, res, next){
-  fileName = 'uploads/'+fileName;
-  console.log(fileName);
+  let fileNameFullPath = './view/uploads/'+fileName;
+  //console.log(fileName);
 
   try {
-      if(await callDasknet(fileName)){
-        let data = await readPrediction(destinationLogPath+'/log.txt');
-        return res.status(201).json(data);
+      if(await callDasknet(fileNameFullPath)){
+        let datas = await readPrediction(destinationLogPath+'/log.txt');
+        //console.log(FOODS);
+        return res.status(200).render('result',  {'file':fileName,data:datas});        
       }else{
         return res.status(201).json({message: 'File uploded Fail'});
       }
@@ -121,5 +124,4 @@ const convertJSON = function(datas){
 
 const getDisplayHTML = function(){
   let html=``;
-  return html;
 }
