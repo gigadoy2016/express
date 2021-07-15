@@ -15,10 +15,11 @@ var rootFile='[app.js]';
 
 var pythonRouter = require('./route/python');
 
-app.set('view engine', 'ejs');
-app.set('views', './views');
 app.use(express.static(path.join(__dirname,'view')));
 app.use(express.json());
+app.set('view engine', 'ejs');
+app.set('views', './view');
+
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
@@ -51,6 +52,7 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
     console.log('Server Listen At 3000')
+    console.log(path.join(__dirname,'view'));
 });
 
 app.get('/new', (req, res) => {
@@ -115,4 +117,9 @@ const convertJSON = function(datas){
     }
   }
   return obj;
+}
+
+const getDisplayHTML = function(){
+  let html=``;
+  return html;
 }
