@@ -155,7 +155,7 @@ const getDisplayHTML = function(items){
     let item = items[i];
     tagTR += '<tr><td>'+item.id+'.</td><td>'+item.name+'</td><td class="a-r">'+item.cal+'</td><td><input type="checkbox" id="'+item.id+'"></td></tr>';
   }
-  let html=  '<table><tr><th>id</th><th>name</th><th>Calories(KCal.)</th><th><input type="checkbox">All</th></tr>';
+  let html=  '<table><tr><th>id</th><th>name</th><th class="a-r">Calories(KCal.)</th><th><input type="checkbox">All</th></tr>';
     html += tagTR;
     html += '<tr><td colspan="2" style="text-align: right;">รวม</td><td class="a-r">610</td><td></td></tr></table>';
   return html;

@@ -19,7 +19,9 @@
         }
       </style>
       <script>
-        
+        function back(){
+          window.location.href = "./new"
+        }
       </script>
   </head>
   <body>
@@ -30,10 +32,10 @@
     <!--EndShow Image-->
     <!--Show info-->
     <div>
-      <%= "<button>test</button>" %>
+      <%- myTable %>
     </div>
     <div style="margin-top: 1em;">
-      <button>&#8592; Back</button>
+      <button onclick="back();">&#8592; Back</button>
       <button>Add &#8594;</button>
     </div>
     <!--End Show info-->
