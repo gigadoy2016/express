@@ -51,6 +51,9 @@ app.use('/python',pythonRouter);
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+app.get("/test", (req, res) => {
+  res.render('uploadDemo');
+});
 
 app.listen(PORT, () => {
     console.log('Server Listen At 3000')
