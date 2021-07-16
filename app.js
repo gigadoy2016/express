@@ -76,7 +76,8 @@ app.post('/upload', upload.single('image'),async function(req, res, next){
         let foodSet = await findFoods(datas);
         let foodDatas = await findFoodData(foodSet);
         console.log(foodDatas);
-        return res.status(200).render('result',  {'file':fileName,data:datas});        
+        let html = await getDisplayHTML(foodDatas);
+        return res.status(200).render('result',  {'file':fileName,'myTable':html});        
       }else{
         return res.status(201).json({message: 'File uploded Fail'});
       }
@@ -148,6 +149,14 @@ const findFoodData = function(foodId){
   return out;
 }
 
-const getDisplayHTML = function(){
-  let html=``;
+const getDisplayHTML = function(items){
+  let tagTR ='';
+  for(let i=0; i<items.length; i++){
+    let item = items[i];
+    tagTR += '<tr><td>'+item.id+'.</td><td>'+item.name+'</td><td class="a-r">'+item.cal+'</td><td><input type="checkbox" id="'+item.id+'"></td></tr>';
+  }
+  let html=  '<table><tr><th>id</th><th>name</th><th>Calories(KCal.)</th><th><input type="checkbox">All</th></tr>';
+    html += tagTR;
+    html += '<tr><td colspan="2" style="text-align: right;">รวม</td><td class="a-r">610</td><td></td></tr></table>';
+  return html;
 }

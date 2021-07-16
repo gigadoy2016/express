@@ -6,6 +6,7 @@ var FOODS = JSON.parse(rawdata);
 
 //console.log(FOODS);
 let items = FOODS.datas;
+let darknet = [{id:29,},{id:3}]
 
 const filteredItem = items.filter((item)=>{
   return item.id == 29;

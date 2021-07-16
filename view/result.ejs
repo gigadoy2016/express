@@ -3,6 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <title>What sub</title>
+      <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+        .a-r{
+          text-align: right;
+        }
+      </style>
       <script>
         
       </script>
@@ -10,12 +25,16 @@
   <body>
     <!--Show Image-->
     <div>
-       <img src='./uploads/<%= file %>' style="max-width: 100%;height: auto;"/>
+       <img src='./uploads/<%=file%>' style="max-width: 100%;height: auto;"/>
     </div>
     <!--EndShow Image-->
     <!--Show info-->
     <div>
-      <%= data%>
+      <%= "<button>test</button>" %>
+    </div>
+    <div style="margin-top: 1em;">
+      <button>&#8592; Back</button>
+      <button>Add &#8594;</button>
     </div>
     <!--End Show info-->
   </body>
