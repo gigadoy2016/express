@@ -70,6 +70,7 @@ app.post('/upload', upload.single('image'),async function(req, res, next){
       if(await callDasknet(fileNameFullPath)){
         let datas = await readPrediction(destinationLogPath+'/log.txt');
         //console.log(FOODS);
+        let foodName = await findFoods(datas);
         return res.status(200).render('result',  {'file':fileName,data:datas});        
       }else{
         return res.status(201).json({message: 'File uploded Fail'});
@@ -81,7 +82,7 @@ app.post('/upload', upload.single('image'),async function(req, res, next){
 const txtLog = function(message){
   let date = dateFormat(Date.now(),"yyyy-mm-dd h:MM:ss");
   let txt = date+":"+rootFile+">"+message;
-  console.log(txt);
+  //console.log(txt);
   console.log("----------------------------------------------------------------------");
   return txt;
 }
@@ -120,6 +121,11 @@ const convertJSON = function(datas){
     }
   }
   return obj;
+}
+
+const findFoods = function(datas){
+  txtLog('findFoods');
+  console.log(datas);
 }
 
 const getDisplayHTML = function(){
