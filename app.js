@@ -73,7 +73,9 @@ app.post('/upload', upload.single('image'),async function(req, res, next){
       if(await callDasknet(fileNameFullPath)){
         let datas = await readPrediction(destinationLogPath+'/log.txt');
         //console.log(FOODS);
-        let foodName = await findFoods(datas);
+        let foodSet = await findFoods(datas);
+        let foodDatas = await findFoodData(foodSet);
+        console.log(foodDatas);
         return res.status(200).render('result',  {'file':fileName,data:datas});        
       }else{
         return res.status(201).json({message: 'File uploded Fail'});
@@ -126,9 +128,24 @@ const convertJSON = function(datas){
   return obj;
 }
 
-const findFoods = function(datas){
-  txtLog('findFoods');
-  console.log(datas);
+const findFoods =async function(datas){
+  let items = datas.map((item)=>{
+    return item.id;
+  });
+  return items;
+}
+const findFoodData = function(foodId){
+  let out =[];
+  let foods = FOODS.datas;
+  //console.log(foods);
+  for(let i=0;i < foodId.length;i++){
+    let id = foodId[i];
+    let food = foods.find((item)=>{
+      return item.id == id;
+    });
+    out.push(food);
+  }
+  return out;
 }
 
 const getDisplayHTML = function(){
