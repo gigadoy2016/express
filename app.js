@@ -153,7 +153,8 @@ const getDisplayHTML = function(items){
   let tagTR ='';
   for(let i=0; i<items.length; i++){
     let item = items[i];
-    tagTR += '<tr><td>'+item.id+'.</td><td>'+item.name+'</td><td class="a-r">'+item.cal+'</td><td><input type="checkbox" id="'+item.id+'"></td></tr>';
+    if(item != undefined)
+      tagTR += '<tr><td>'+item.id+'.</td><td>'+item.name+'</td><td class="a-r">'+item.cal+'</td><td><input type="checkbox" id="'+item.id+'"></td></tr>';
   }
   let html=  '<table><tr><th>id</th><th>name</th><th class="a-r">Calories(KCal.)</th><th><input type="checkbox">All</th></tr>';
     html += tagTR;
